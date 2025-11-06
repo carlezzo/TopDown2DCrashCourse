@@ -40,7 +40,7 @@ BoxCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2896651854541619241}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Density: 1
   m_Material: {fileID: 0}
@@ -92,6 +92,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   attackOffsetRight: {x: 0, y: 0}
+  swordCollider: {fileID: 970198661680217737}
+  damage: 3
 --- !u!1 &5190075696110769053
 GameObject:
   m_ObjectHideFlags: 0

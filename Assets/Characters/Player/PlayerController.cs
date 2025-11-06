@@ -78,11 +78,11 @@ public class PlayerController : MonoBehaviour
                 direction, // X and Y values between -1 and 1 that represent the direction from the body to look for collisions
                 movementFilter, // The settings that determine where a collision can occur on such as layers to collide with
                 castCollisions, // List of collisions to store the found collisions into after the Cast is finished
-                moveSpeed * Time.fixedDeltaTime + collisionOffset); // The amount to cast equal to the movement plus an offset
+                moveSpeed * Time.deltaTime + collisionOffset); // The amount to cast equal to the movement plus an offset
 
             if (count == 0)
             {
-                rb.MovePosition(rb.position + direction * moveSpeed * Time.fixedDeltaTime);
+                rb.MovePosition(rb.position + direction * moveSpeed * Time.deltaTime);
                 return true;
             }
         }
@@ -113,6 +113,12 @@ public class PlayerController : MonoBehaviour
         {
             swordAttack.AttackRight();
         }
+    }
+
+    public void StopSwordAttack()
+    {
+        swordAttack.StopAttack();
+        UnlockMovement();
     }
 
     public void LockMovement()
