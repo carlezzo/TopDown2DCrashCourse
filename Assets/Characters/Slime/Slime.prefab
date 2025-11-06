@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5145799668594481709}
   - component: {fileID: 2312838684288951380}
   - component: {fileID: 217692789073324849}
-  - component: {fileID: 7425892124815016179}
+  - component: {fileID: 8229284490348430286}
   m_Layer: 0
   m_Name: Slime
   m_TagString: Enemy
@@ -171,7 +171,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   health: 3
---- !u!95 &7425892124815016179
+  detectionRadius: 0.5
+  attackRadius: 1
+  moveSpeed: 0.5
+  attackDamage: 1
+  attackCooldown: 5.85
+  currentState: 0
+--- !u!95 &8229284490348430286
 Animator:
   serializedVersion: 7
   m_ObjectHideFlags: 0
