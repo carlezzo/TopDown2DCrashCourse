@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 2312838684288951380}
   - component: {fileID: 217692789073324849}
   - component: {fileID: 8229284490348430286}
+  - component: {fileID: 6294511042041841735}
   m_Layer: 0
   m_Name: Slime
   m_TagString: Enemy
@@ -170,12 +171,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 684907ccbbc3b43f588e0bb323564522, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  health: 3
   detectionRadius: 0.44
-  attackRadius: 0.09
+  attackRadius: 0.2
   moveSpeed: 0.1
   attackDamage: 1
-  attackCooldown: 5.85
+  attackCooldown: 4
   currentState: 0
 --- !u!95 &8229284490348430286
 Animator:
@@ -199,3 +199,23 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &6294511042041841735
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6794804004108509747}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfcbe7f6957d34e97a0c842e79cd23f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HealthComponent
+  maxHealth: 3
+  healthBar: {fileID: 0}
+  OnHealthChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDeath:
+    m_PersistentCalls:
+      m_Calls: []

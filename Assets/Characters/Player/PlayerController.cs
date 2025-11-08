@@ -5,11 +5,8 @@ using System.Collections.Generic;
 public class PlayerController : MonoBehaviour
 {
     public float moveSpeed = 1f;
-    public int health = 3;
     public float collisionOffset = 0.05f;
     public ContactFilter2D movementFilter;
-
-    public HealthBarController healthBar;
 
     Vector2 movementInput;
     Rigidbody2D rb;
@@ -22,6 +19,8 @@ public class PlayerController : MonoBehaviour
     bool canMove = true;
 
     public SwordAttack swordAttack;
+    
+    HealthComponent healthComponent;
 
     // Start is called before the first frame update
     void Start()
@@ -29,8 +28,12 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
-
-        healthBar.SetHealth(health);
+        
+        healthComponent = GetComponent<HealthComponent>();
+        if (healthComponent != null)
+        {
+            healthComponent.OnDeath.AddListener(HandlePlayerDeath);
+        }
     }
 
     private void FixedUpdate()
@@ -135,15 +138,17 @@ public class PlayerController : MonoBehaviour
         canMove = true;
     }
 
+    void HandlePlayerDeath()
+    {
+        // TODO: Implement player defeat logic
+        // For example: restart level, show game over screen, etc.
+    }
+    
     public void TakeDamage(int damage)
     {
-        health -= damage;
-
-        healthBar.SetHealth(health);
-
-        if (health <= 0)
+        if (healthComponent != null)
         {
-            // Defeated();
+            healthComponent.TakeDamage(damage);
         }
     }
 

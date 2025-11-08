@@ -2,8 +2,6 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    [Header("Vida do Inimigo")]
-    public int health = 3;
 
     [Header("Sistema de Detecção")]
     public float detectionRadius = 0.50f; // Raio para detectar o player
@@ -25,13 +23,12 @@ public class Enemy : MonoBehaviour
     [Header("Debug - Estado Atual")]
     public EnemyState currentState = EnemyState.Idle;
 
-    [Header("Barra de Vida")]
-    public HealthBarController healthBar;
 
     // Referências
     private Animator animator;
     private Rigidbody2D rb;
     private Transform playerTransform;
+    private HealthComponent healthComponent;
 
     // Controle de ataque
     private float lastAttackTime;
@@ -41,8 +38,12 @@ public class Enemy : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
-
-        healthBar.SetMaxHealth(health);
+        healthComponent = GetComponent<HealthComponent>();
+        
+        if (healthComponent != null)
+        {
+            healthComponent.OnDeath.AddListener(Defeated);
+        }
 
         // Encontra o player pela tag
         GameObject player = GameObject.FindGameObjectWithTag("Player");
@@ -59,7 +60,7 @@ public class Enemy : MonoBehaviour
     private void FixedUpdate()
     {
         // Só atualiza se não estiver derrotado e player existir
-        if (health <= 0 || playerTransform == null) return;
+        if (healthComponent.GetCurrentHealth() <= 0 || playerTransform == null) return;
 
         UpdateEnemyBehavior();
     }
@@ -172,13 +173,9 @@ public class Enemy : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
-        health -= damage;
-
-        healthBar.SetHealth(health);
-
-        if (health <= 0)
+        if (healthComponent != null)
         {
-            Defeated();
+            healthComponent.TakeDamage(damage);
         }
     }
 
