@@ -249,6 +249,8 @@ MonoBehaviour:
     maxDepth: 0
     minNormalAngle: 0
     maxNormalAngle: 0
+  joystick: {fileID: 0}
+  joystickSensitivity: 6
   swordAttack: {fileID: 1026511288431031625}
 --- !u!50 &1062210218066734509
 Rigidbody2D:

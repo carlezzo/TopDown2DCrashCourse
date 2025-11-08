@@ -7,6 +7,8 @@ public class PlayerController : MonoBehaviour
     public float moveSpeed = 1f;
     public float collisionOffset = 0.05f;
     public ContactFilter2D movementFilter;
+    public FixedJoystick joystick;
+    public float joystickSensitivity = 6f;
 
     Vector2 movementInput;
     Rigidbody2D rb;
@@ -19,7 +21,7 @@ public class PlayerController : MonoBehaviour
     bool canMove = true;
 
     public SwordAttack swordAttack;
-    
+
     HealthComponent healthComponent;
 
     // Start is called before the first frame update
@@ -28,11 +30,21 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
-        
+
         healthComponent = GetComponent<HealthComponent>();
         if (healthComponent != null)
         {
             healthComponent.OnDeath.AddListener(HandlePlayerDeath);
+        }
+
+        // Log para testar se o joystick foi configurado
+        if (joystick != null)
+        {
+            Debug.Log("FixedJoystick configurado com sucesso!");
+        }
+        else
+        {
+            Debug.Log("FixedJoystick não foi atribuído ao PlayerController.");
         }
     }
 
@@ -41,20 +53,30 @@ public class PlayerController : MonoBehaviour
 
         if (!canMove) return;
 
+        // Combinar input do joystick e teclado
+        Vector2 joystickInput = (joystick != null) ? joystick.Direction * joystickSensitivity : Vector2.zero;
+        Vector2 finalMovementInput = movementInput + joystickInput;
+
+        print(finalMovementInput);
+
+        // Limitar magnitude para evitar velocidade dupla quando ambos são usados
+        if (finalMovementInput.magnitude > 1f)
+            finalMovementInput = finalMovementInput.normalized;
+
         // If movement input is not 0, try to move
-        if (movementInput != Vector2.zero)
+        if (finalMovementInput != Vector2.zero)
         {
-            bool success = TryMove(movementInput);
+            bool success = TryMove(finalMovementInput);
 
             if (!success)
             {
                 // Try moving on X axis only
-                success = TryMove(new Vector2(movementInput.x, 0));
+                success = TryMove(new Vector2(finalMovementInput.x, 0));
 
                 if (!success)
                 {
                     // Try moving on Y axis only
-                    success = TryMove(new Vector2(0, movementInput.y));
+                    success = TryMove(new Vector2(0, finalMovementInput.y));
                 }
             }
 
@@ -67,11 +89,11 @@ public class PlayerController : MonoBehaviour
         }
 
         // Update sprite direction based on movement input
-        if (movementInput.x < 0)
+        if (finalMovementInput.x < 0)
         {
             spriteRenderer.flipX = true;
         }
-        else if (movementInput.x > 0)
+        else if (finalMovementInput.x > 0)
         {
             spriteRenderer.flipX = false;
         }
@@ -143,7 +165,7 @@ public class PlayerController : MonoBehaviour
         // TODO: Implement player defeat logic
         // For example: restart level, show game over screen, etc.
     }
-    
+
     public void TakeDamage(int damage)
     {
         if (healthComponent != null)
