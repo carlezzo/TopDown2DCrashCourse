@@ -6,7 +6,7 @@ public class SwordAttack : MonoBehaviour
 
     public Collider2D swordCollider;
 
-    public float damage = 3f;
+    public int damage = 3;
 
     void Start()
     {

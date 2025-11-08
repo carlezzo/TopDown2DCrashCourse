@@ -171,9 +171,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   health: 3
-  detectionRadius: 0.5
-  attackRadius: 1
-  moveSpeed: 0.5
+  detectionRadius: 0.44
+  attackRadius: 0.09
+  moveSpeed: 0.1
   attackDamage: 1
   attackCooldown: 5.85
   currentState: 0

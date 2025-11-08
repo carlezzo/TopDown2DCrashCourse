@@ -3,7 +3,7 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     [Header("Vida do Inimigo")]
-    public float health = 3;
+    public int health = 3;
 
     [Header("Sistema de Detecção")]
     public float detectionRadius = 0.50f; // Raio para detectar o player
@@ -11,7 +11,7 @@ public class Enemy : MonoBehaviour
     public float moveSpeed = 0.05f;       // Velocidade de movimento
 
     [Header("Sistema de Ataque")]
-    public float attackDamage = 1f;    // Dano que o inimigo causa
+    public int attackDamage = 1;    // Dano que o inimigo causa
     public float attackCooldown = 5.5f; // Tempo entre ataques
 
     // Estados do inimigo
@@ -24,6 +24,9 @@ public class Enemy : MonoBehaviour
 
     [Header("Debug - Estado Atual")]
     public EnemyState currentState = EnemyState.Idle;
+
+    [Header("Barra de Vida")]
+    public HealthBarController healthBar;
 
     // Referências
     private Animator animator;
@@ -38,6 +41,8 @@ public class Enemy : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
+
+        healthBar.SetMaxHealth(health);
 
         // Encontra o player pela tag
         GameObject player = GameObject.FindGameObjectWithTag("Player");
@@ -148,8 +153,9 @@ public class Enemy : MonoBehaviour
             Debug.Log($"Inimigo atacou o player causando {attackDamage} de dano!");
 
             // TODO: Implementar dano ao player quando houver sistema de vida do player
-            // PlayerController player = playerTransform.GetComponent<PlayerController>();
-            // if (player != null) player.TakeDamage(attackDamage);
+
+            PlayerController player = playerTransform.GetComponent<PlayerController>();
+            if (player != null) player.TakeDamage(attackDamage);
 
             // Inicia cooldown de ataque
             StartCoroutine(AttackCooldownCoroutine());
@@ -164,9 +170,12 @@ public class Enemy : MonoBehaviour
         canAttack = true;
     }
 
-    public void TakeDamage(float damage)
+    public void TakeDamage(int damage)
     {
         health -= damage;
+
+        healthBar.SetHealth(health);
+
         if (health <= 0)
         {
             Defeated();
@@ -199,4 +208,6 @@ public class Enemy : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, attackRadius);
     }
+
+
 }
