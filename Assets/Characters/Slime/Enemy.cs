@@ -29,6 +29,7 @@ public class Enemy : MonoBehaviour
     private Rigidbody2D rb;
     private Transform playerTransform;
     private HealthComponent healthComponent;
+    private HealthBarController healthBarController;
 
     // Controle de ataque
     private float lastAttackTime;
@@ -39,6 +40,7 @@ public class Enemy : MonoBehaviour
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
         healthComponent = GetComponent<HealthComponent>();
+        healthBarController = GetComponentInChildren<HealthBarController>();
         
         if (healthComponent != null)
         {
@@ -123,14 +125,20 @@ public class Enemy : MonoBehaviour
         {
             case EnemyState.Idle:
                 animator.SetBool("isMoving", false);
+                if (healthBarController != null)
+                    healthBarController.Hide();
                 break;
 
             case EnemyState.Chasing:
                 animator.SetBool("isMoving", true);
+                if (healthBarController != null)
+                    healthBarController.Show();
                 break;
 
             case EnemyState.Attacking:
                 animator.SetBool("isMoving", false);
+                if (healthBarController != null)
+                    healthBarController.Show();
                 break;
         }
     }
@@ -184,6 +192,10 @@ public class Enemy : MonoBehaviour
         // Para o movimento e muda para estado derrotado
         currentState = EnemyState.Idle;
         animator.SetTrigger("defeated");
+
+        // Esconde a health bar quando derrotado
+        if (healthBarController != null)
+            healthBarController.Hide();
 
         // Desabilita o collider para que não continue detectando/atacando
         GetComponent<Collider2D>().enabled = false;
