@@ -7,7 +7,7 @@ public class HealthBarController : MonoBehaviour
 
     private void Start()
     {
-        Hide();
+        // Hide();
     }
 
     public void SetMaxHealth(int health)

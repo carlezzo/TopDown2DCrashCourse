@@ -1,33 +1,23 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class InventoryButtonUI : MonoBehaviour
+public class OpenInventoryButtonUI : MonoBehaviour
 {
     [Header("References")]
-    public InventoryUI inventoryUI;
+    [SerializeField] private InventoryUI inventoryUI;
 
     private Button button;
 
     void Awake()
     {
         button = GetComponent<Button>();
+        inventoryUI ??= FindFirstObjectByType<InventoryUI>();
 
         if (button == null)
-        {
-            Debug.LogError("InventoryButtonUI: No Button component found!");
-            return;
-        }
+            Debug.LogError("Button component não encontrado em OpenInventoryButtonUI!");
 
         if (inventoryUI == null)
-        {
-            inventoryUI = FindFirstObjectByType<InventoryUI>();
-
-            if (inventoryUI == null)
-            {
-                Debug.LogError("InventoryButtonUI: InventoryUI not found! Please assign it in the inspector.");
-                return;
-            }
-        }
+            Debug.LogError("InventoryUI não encontrado! Adicione via Inspector ou garanta que existe na cena.");
     }
 
     void Start()

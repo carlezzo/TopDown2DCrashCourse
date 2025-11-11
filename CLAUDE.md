@@ -113,6 +113,30 @@ void Awake()
 }
 ```
 
+**Component Reference Pattern (Unity Best Practice):**
+```csharp
+[Header("References")]
+[SerializeField] private ComponentType componentReference;
+
+void Awake()
+{
+    // Use null-coalescing assignment operator for automatic fallback
+    componentReference ??= FindFirstObjectByType<ComponentType>();
+
+    if (componentReference == null)
+        Debug.LogError("ComponentType não encontrado! Adicione via Inspector ou garanta que existe na cena.");
+}
+```
+
+**Key principles:**
+- Use `[SerializeField] private` instead of `public` for Inspector fields (maintains encapsulation)
+- Use `??=` operator for concise null-checking with fallback
+- Use `?.` (null-conditional operator) for safe method calls on potentially null references
+- Always provide `Debug.LogError()` when critical references are missing
+- Inspector-first approach: manual assignment takes priority, automatic search as fallback
+- Use `Awake()` for reference initialization (not `Start()`)
+- Use `FindFirstObjectByType<T>()` instead of deprecated `FindObjectOfType<T>()` (Unity 2023+)
+
 **Event System Usage:**
 ```csharp
 [Header("Events")]

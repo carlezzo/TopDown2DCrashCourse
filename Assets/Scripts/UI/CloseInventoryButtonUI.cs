@@ -14,7 +14,6 @@ public class CloseInventoryButtonUI : MonoBehaviour
         
         if (button == null)
         {
-            Debug.LogError("CloseInventoryButtonUI: No Button component found!");
             return;
         }
         
@@ -24,7 +23,6 @@ public class CloseInventoryButtonUI : MonoBehaviour
             
             if (inventoryUI == null)
             {
-                Debug.LogError("CloseInventoryButtonUI: InventoryUI not found! Please assign it in the inspector.");
                 return;
             }
         }

@@ -55,7 +55,6 @@ public class Enemy : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("Player não encontrado! Certifique-se que o player tenha a tag 'Player'");
         }
     }
 
@@ -159,7 +158,6 @@ public class Enemy : MonoBehaviour
 
             // Aqui seria onde o inimigo causa dano ao player
             // Por enquanto só mostra debug
-            Debug.Log($"Inimigo atacou o player causando {attackDamage} de dano!");
 
             // TODO: Implementar dano ao player quando houver sistema de vida do player
 

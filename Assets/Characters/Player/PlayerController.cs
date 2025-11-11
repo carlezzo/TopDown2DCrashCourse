@@ -37,15 +37,6 @@ public class PlayerController : MonoBehaviour
             healthComponent.OnDeath.AddListener(HandlePlayerDeath);
         }
 
-        // Log para testar se o joystick foi configurado
-        if (joystick != null)
-        {
-            Debug.Log("FixedJoystick configurado com sucesso!");
-        }
-        else
-        {
-            Debug.Log("FixedJoystick não foi atribuído ao PlayerController.");
-        }
     }
 
     private void FixedUpdate()
@@ -57,7 +48,6 @@ public class PlayerController : MonoBehaviour
         Vector2 joystickInput = (joystick != null) ? joystick.Direction * joystickSensitivity : Vector2.zero;
         Vector2 finalMovementInput = movementInput + joystickInput;
 
-        print(finalMovementInput);
 
         // Limitar magnitude para evitar velocidade dupla quando ambos são usados
         if (finalMovementInput.magnitude > 1f)

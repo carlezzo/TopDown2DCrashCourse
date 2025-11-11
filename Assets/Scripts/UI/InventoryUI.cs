@@ -26,7 +26,7 @@ public class InventoryUI : MonoBehaviour
 
         CreateInventorySlots();
         UpdateInventoryUI();
-        
+
         isInventoryOpen = false;
         inventoryPanel.SetActive(false);
     }
@@ -37,30 +37,20 @@ public class InventoryUI : MonoBehaviour
         isInventoryOpen = true;
         inventoryPanel.SetActive(true);
         UpdateInventoryUI();
+
+        GameManager.Instance?.PauseGame();
     }
 
     public void CloseInventory()
     {
         isInventoryOpen = false;
         inventoryPanel.SetActive(false);
-    }
 
-    // public void ToggleInventory()
-    // {
-    //     if (isInventoryOpen)
-    //     {
-    //         CloseInventory();
-    //     }
-    //     else
-    //     {
-    //         OpenInventory();
-    //     }
-    // }
+        GameManager.Instance?.ResumeGame();
+    }
 
     void CreateInventorySlots()
     {
-        // if (inventorySlotPrefab == null || itemsContainer == null)
-        //     return;
 
         for (int i = 0; i < InventoryManager.Instance.GetInventoryItemCount(); i++)
         {

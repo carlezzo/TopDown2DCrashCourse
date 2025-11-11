@@ -7,37 +7,36 @@ public class ItemPickup : MonoBehaviour
     public int quantity = 1;
     public float pickupRange = 1.5f;
     public PickupMode pickupMode = PickupMode.Trigger;
-    
+
     [Header("Visual Effects")]
     public bool destroyOnPickup = true;
     public float bobSpeed = 2f;
     public float bobHeight = 0.5f;
     public bool enableBobbing = true;
-    
+
     [Header("Audio")]
     public AudioClip pickupSound;
-    
+
     private Vector3 startPosition;
     private SpriteRenderer spriteRenderer;
     private AudioSource audioSource;
-    
+
     void Start()
     {
         startPosition = transform.position;
         spriteRenderer = GetComponent<SpriteRenderer>();
         audioSource = GetComponent<AudioSource>();
-        
+
         if (item != null && spriteRenderer != null && item.icon != null)
         {
             spriteRenderer.sprite = item.icon;
         }
-        
+
         if (item == null)
         {
-            Debug.LogWarning($"ItemPickup on {gameObject.name} has no item assigned!");
         }
     }
-    
+
     void Update()
     {
         if (enableBobbing)
@@ -45,13 +44,13 @@ public class ItemPickup : MonoBehaviour
             float newY = startPosition.y + Mathf.Sin(Time.time * bobSpeed) * bobHeight;
             transform.position = new Vector3(startPosition.x, newY, startPosition.z);
         }
-        
+
         if (pickupMode == PickupMode.Proximity)
         {
             CheckForPlayer();
         }
     }
-    
+
     void CheckForPlayer()
     {
         GameObject player = GameObject.FindGameObjectWithTag("Player");
@@ -64,32 +63,29 @@ public class ItemPickup : MonoBehaviour
             }
         }
     }
-    
+
     public void TryPickup()
     {
         if (item == null)
         {
-            Debug.LogWarning("Cannot pickup item: no item assigned!");
             return;
         }
-        
+
         if (InventoryManager.Instance == null)
         {
-            Debug.LogWarning("Cannot pickup item: InventoryManager not found!");
             return;
         }
-        
+
         bool success = InventoryManager.Instance.AddItem(item, quantity);
-        
+
         if (success)
         {
-            Debug.Log($"Picked up {quantity} {item.itemName}(s)!");
-            
+
             if (pickupSound != null && audioSource != null)
             {
                 audioSource.PlayOneShot(pickupSound);
             }
-            
+
             if (destroyOnPickup)
             {
                 if (pickupSound != null && audioSource != null)
@@ -110,18 +106,18 @@ public class ItemPickup : MonoBehaviour
         }
         else
         {
-            Debug.Log($"Could not pickup {item.itemName}: inventory full or item not stackable!");
         }
     }
-    
+
     void OnTriggerEnter2D(Collider2D other)
     {
+        print("OnTriggerEnter2D called with " + other.name);
         if (pickupMode == PickupMode.Trigger && other.CompareTag("Player"))
         {
             TryPickup();
         }
     }
-    
+
     void OnDrawGizmosSelected()
     {
         if (pickupMode == PickupMode.Proximity)

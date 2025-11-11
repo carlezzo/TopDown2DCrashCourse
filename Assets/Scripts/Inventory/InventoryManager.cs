@@ -50,9 +50,11 @@ public class InventoryManager : MonoBehaviour
 
         if (!item.isStackable && inventory.ContainsKey(item))
         {
-            Debug.Log($"Item {item.itemName} is not stackable and already exists in inventory!");
             return false;
         }
+
+
+        print($"Adding {quantity} x {item.name} to inventory.");
 
         if (inventory.ContainsKey(item))
         {
@@ -67,7 +69,6 @@ public class InventoryManager : MonoBehaviour
                     OnItemAdded?.Invoke(item, addedAmount);
                     OnInventoryChanged?.Invoke();
                     SaveInventory();
-                    Debug.Log($"Added {addedAmount} {item.itemName}(s). Stack is now full!");
                 }
                 return addedAmount > 0;
             }
@@ -80,7 +81,6 @@ public class InventoryManager : MonoBehaviour
         {
             if (GetInventoryItemCount() >= maxInventorySize)
             {
-                Debug.Log("Inventory is full!");
                 return false;
             }
 
@@ -91,7 +91,6 @@ public class InventoryManager : MonoBehaviour
         OnInventoryChanged?.Invoke();
         SaveInventory();
 
-        Debug.Log($"Added {quantity} {item.itemName}(s) to inventory. Total: {inventory[item]}");
         return true;
     }
 
@@ -107,7 +106,6 @@ public class InventoryManager : MonoBehaviour
             OnItemRemoved?.Invoke(item, removedAmount);
             OnInventoryChanged?.Invoke();
             SaveInventory();
-            Debug.Log($"Removed all {item.itemName}(s) from inventory");
             return true;
         }
         else
@@ -116,7 +114,6 @@ public class InventoryManager : MonoBehaviour
             OnItemRemoved?.Invoke(item, quantity);
             OnInventoryChanged?.Invoke();
             SaveInventory();
-            Debug.Log($"Removed {quantity} {item.itemName}(s) from inventory. Remaining: {inventory[item]}");
             return true;
         }
     }
@@ -151,7 +148,6 @@ public class InventoryManager : MonoBehaviour
         inventory.Clear();
         OnInventoryChanged?.Invoke();
         SaveInventory();
-        Debug.Log("Inventory cleared");
     }
 
     private void SaveInventory()
@@ -168,7 +164,6 @@ public class InventoryManager : MonoBehaviour
             string json = JsonUtility.ToJson(data, true);
             File.WriteAllText(savePath, json);
 
-            Debug.Log($"Inventory saved to: {savePath}");
         }
         catch (System.Exception e)
         {
@@ -200,12 +195,10 @@ public class InventoryManager : MonoBehaviour
                     }
                 }
 
-                Debug.Log($"Inventory loaded from: {savePath}. Items loaded: {inventory.Count}");
                 OnInventoryChanged?.Invoke();
             }
             else
             {
-                Debug.Log("No saved inventory found. Starting with empty inventory.");
             }
         }
         catch (System.Exception e)
@@ -235,7 +228,6 @@ public class InventoryManager : MonoBehaviour
     {
         if (Keyboard.current != null && Keyboard.current.tKey.wasPressedThisFrame)
         {
-            Debug.Log("T key pressed - loading mock data");
             LoadMockData();
         }
     }
@@ -254,7 +246,6 @@ public class InventoryManager : MonoBehaviour
             if (item != null)
             {
                 AddItem(item, itemData.quantity);
-                Debug.Log($"Loaded mock item: {itemData.itemName} x{itemData.quantity}");
             }
             else
             {
@@ -262,6 +253,5 @@ public class InventoryManager : MonoBehaviour
             }
         }
 
-        Debug.Log("Mock data loading completed.");
     }
 }

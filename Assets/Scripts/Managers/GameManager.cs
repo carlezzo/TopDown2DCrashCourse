@@ -65,7 +65,6 @@ public class GameManager : MonoBehaviour
             
             OnGameStateChanged?.Invoke(newState);
             
-            Debug.Log($"Game state changed from {previousState} to {newState}");
         }
     }
     
@@ -78,7 +77,6 @@ public class GameManager : MonoBehaviour
             SetGameState(GameState.Paused);
             OnGamePaused?.Invoke();
             
-            Debug.Log("Game paused");
         }
     }
     
@@ -91,7 +89,6 @@ public class GameManager : MonoBehaviour
             SetGameState(GameState.Playing);
             OnGameResumed?.Invoke();
             
-            Debug.Log("Game resumed");
         }
     }
     
@@ -112,7 +109,6 @@ public class GameManager : MonoBehaviour
     
     public void QuitGame()
     {
-        Debug.Log("Quitting game...");
         
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
