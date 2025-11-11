@@ -2,49 +2,58 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.InputSystem;
 
 public class InventoryManager : MonoBehaviour
 {
     public static InventoryManager Instance { get; private set; }
-    
+
     [Header("Inventory Settings")]
     public int maxInventorySize = 20;
-    
+
+    [Header("Debug")]
+    public bool loadMockDataOnStart = false;
+
     [Header("Events")]
     public UnityEvent<Item, int> OnItemAdded;
     public UnityEvent<Item, int> OnItemRemoved;
     public UnityEvent OnInventoryChanged;
-    
+
     private Dictionary<Item, int> inventory = new Dictionary<Item, int>();
     private string savePath;
-    
+
     void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
-            
+
             savePath = Path.Combine(Application.persistentDataPath, "inventory.json");
             LoadInventory();
+
+            if (loadMockDataOnStart)
+            {
+                LoadMockData();
+            }
         }
         else
         {
             Destroy(gameObject);
         }
     }
-    
+
     public bool AddItem(Item item, int quantity = 1)
     {
         if (item == null || quantity <= 0)
             return false;
-            
+
         if (!item.isStackable && inventory.ContainsKey(item))
         {
             Debug.Log($"Item {item.itemName} is not stackable and already exists in inventory!");
             return false;
         }
-        
+
         if (inventory.ContainsKey(item))
         {
             int newQuantity = inventory[item] + quantity;
@@ -52,7 +61,7 @@ public class InventoryManager : MonoBehaviour
             {
                 int addedAmount = item.maxStackSize - inventory[item];
                 inventory[item] = item.maxStackSize;
-                
+
                 if (addedAmount > 0)
                 {
                     OnItemAdded?.Invoke(item, addedAmount);
@@ -74,23 +83,23 @@ public class InventoryManager : MonoBehaviour
                 Debug.Log("Inventory is full!");
                 return false;
             }
-            
+
             inventory[item] = Mathf.Min(quantity, item.maxStackSize);
         }
-        
+
         OnItemAdded?.Invoke(item, quantity);
         OnInventoryChanged?.Invoke();
         SaveInventory();
-        
+
         Debug.Log($"Added {quantity} {item.itemName}(s) to inventory. Total: {inventory[item]}");
         return true;
     }
-    
+
     public bool RemoveItem(Item item, int quantity = 1)
     {
         if (item == null || quantity <= 0 || !inventory.ContainsKey(item))
             return false;
-            
+
         if (inventory[item] <= quantity)
         {
             int removedAmount = inventory[item];
@@ -111,32 +120,32 @@ public class InventoryManager : MonoBehaviour
             return true;
         }
     }
-    
+
     public int GetItemQuantity(Item item)
     {
         return inventory.ContainsKey(item) ? inventory[item] : 0;
     }
-    
+
     public bool HasItem(Item item, int quantity = 1)
     {
         return GetItemQuantity(item) >= quantity;
     }
-    
+
     public Dictionary<Item, int> GetInventory()
     {
         return new Dictionary<Item, int>(inventory);
     }
-    
+
     public int GetInventoryItemCount()
     {
         return inventory.Count;
     }
-    
+
     public bool IsInventoryFull()
     {
         return GetInventoryItemCount() >= maxInventorySize;
     }
-    
+
     public void ClearInventory()
     {
         inventory.Clear();
@@ -144,21 +153,21 @@ public class InventoryManager : MonoBehaviour
         SaveInventory();
         Debug.Log("Inventory cleared");
     }
-    
+
     private void SaveInventory()
     {
         try
         {
             InventoryData data = new InventoryData();
-            
+
             foreach (var kvp in inventory)
             {
                 data.items.Add(new ItemData(kvp.Key.name, kvp.Value));
             }
-            
+
             string json = JsonUtility.ToJson(data, true);
             File.WriteAllText(savePath, json);
-            
+
             Debug.Log($"Inventory saved to: {savePath}");
         }
         catch (System.Exception e)
@@ -166,7 +175,7 @@ public class InventoryManager : MonoBehaviour
             Debug.LogError($"Failed to save inventory: {e.Message}");
         }
     }
-    
+
     private void LoadInventory()
     {
         try
@@ -175,9 +184,9 @@ public class InventoryManager : MonoBehaviour
             {
                 string json = File.ReadAllText(savePath);
                 InventoryData data = JsonUtility.FromJson<InventoryData>(json);
-                
+
                 inventory.Clear();
-                
+
                 foreach (var itemData in data.items)
                 {
                     Item item = Resources.Load<Item>("Items/" + itemData.itemName);
@@ -190,7 +199,7 @@ public class InventoryManager : MonoBehaviour
                         Debug.LogWarning($"Could not load item: {itemData.itemName}");
                     }
                 }
-                
+
                 Debug.Log($"Inventory loaded from: {savePath}. Items loaded: {inventory.Count}");
                 OnInventoryChanged?.Invoke();
             }
@@ -204,21 +213,55 @@ public class InventoryManager : MonoBehaviour
             Debug.LogError($"Failed to load inventory: {e.Message}");
         }
     }
-    
+
     void OnApplicationPause(bool pauseStatus)
     {
         if (pauseStatus)
             SaveInventory();
     }
-    
+
     void OnApplicationFocus(bool hasFocus)
     {
         if (!hasFocus)
             SaveInventory();
     }
-    
+
     void OnDestroy()
     {
         SaveInventory();
+    }
+
+    void Update()
+    {
+        if (Keyboard.current != null && Keyboard.current.tKey.wasPressedThisFrame)
+        {
+            Debug.Log("T key pressed - loading mock data");
+            LoadMockData();
+        }
+    }
+
+    [ContextMenu("Load Mock Data")]
+    public void LoadMockData()
+    {
+        var mockData = InventoryData.CreateMockData();
+
+        print("Loading mock data into inventory...");
+
+        foreach (var itemData in mockData.items)
+        {
+            print(itemData.itemName + " x" + itemData.quantity);
+            Item item = Resources.Load<Item>("Items/" + itemData.itemName);
+            if (item != null)
+            {
+                AddItem(item, itemData.quantity);
+                Debug.Log($"Loaded mock item: {itemData.itemName} x{itemData.quantity}");
+            }
+            else
+            {
+                Debug.LogWarning($"Mock item not found: {itemData.itemName}. Create ScriptableObject in Assets/Resources/Items/");
+            }
+        }
+
+        Debug.Log("Mock data loading completed.");
     }
 }

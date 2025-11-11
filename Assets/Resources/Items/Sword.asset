@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6c6b291c831824709b22f533ccb9c18e, type: 3}
-  m_Name: Coin
+  m_Name: Sword
   m_EditorClassIdentifier: Assembly-CSharp::Item
-  itemName: Coin
+  itemName: Sword
   description: "O \xEDcone aqui de baixo \xE9 o \xEDcone que vai aparecer no invent\xE1rio\nEsse
     \xEDcone pode ser menor ou diferente do que est\xE1 no game object\nmas tamb\xE9m
     da para usar o mesmo"
-  icon: {fileID: -703822719, guid: 14123720cb2324e94ae0cd28d1958a66, type: 3}
+  icon: {fileID: 7807952054443111765, guid: 1f73da0de66f845859df975c88d22805, type: 3}
   itemType: 0
   isStackable: 1
   maxStackSize: 99
