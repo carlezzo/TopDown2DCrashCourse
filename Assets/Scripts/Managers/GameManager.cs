@@ -72,10 +72,10 @@ public class GameManager : MonoBehaviour
     {
         if (!isPaused)
         {
-            isPaused = true;
-            Time.timeScale = 0f;
-            SetGameState(GameState.Paused);
-            OnGamePaused?.Invoke();
+            // isPaused = true;
+            // Time.timeScale = 0f;
+            // SetGameState(GameState.Paused);
+            // OnGamePaused?.Invoke();
             
         }
     }

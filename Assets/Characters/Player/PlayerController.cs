@@ -37,6 +37,8 @@ public class PlayerController : MonoBehaviour
             healthComponent.OnDeath.AddListener(HandlePlayerDeath);
         }
 
+        // Configurar filtro de movimento baseado no layer atual
+        UpdateMovementFilter();
     }
 
     private void FixedUpdate()
@@ -162,6 +164,31 @@ public class PlayerController : MonoBehaviour
         {
             healthComponent.TakeDamage(damage);
         }
+    }
+
+    /// <summary>
+    /// Atualiza o filtro de movimento para colidir apenas com layers apropriados
+    /// baseado no layer atual do player e na Collision Matrix configurada.
+    /// </summary>
+    void UpdateMovementFilter()
+    {
+        // Configurar filtro para usar layer mask
+        movementFilter.useLayerMask = true;
+
+        // Obter automaticamente quais layers o player deve colidir
+        // baseado na Collision Matrix (Physics 2D Settings)
+        movementFilter.SetLayerMask(Physics2D.GetLayerCollisionMask(gameObject.layer));
+
+        Debug.Log($"[PlayerController] Movement filter atualizado para layer: {LayerMask.LayerToName(gameObject.layer)} (ID: {gameObject.layer})");
+    }
+
+    /// <summary>
+    /// Método público para atualizar o filtro quando o player mudar de elevação.
+    /// Chamado por ElevationZone ou ElevationManager quando há transição de nível.
+    /// </summary>
+    public void OnElevationChanged()
+    {
+        UpdateMovementFilter();
     }
 
 }

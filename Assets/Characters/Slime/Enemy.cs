@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class Enemy : MonoBehaviour
 {
@@ -11,6 +12,10 @@ public class Enemy : MonoBehaviour
     [Header("Sistema de Ataque")]
     public int attackDamage = 1;    // Dano que o inimigo causa
     public float attackCooldown = 5.5f; // Tempo entre ataques
+
+    [Header("Sistema de Colisão")]
+    public float collisionOffset = 0.05f;
+    public ContactFilter2D movementFilter;
 
     // Estados do inimigo
     public enum EnemyState
@@ -30,6 +35,7 @@ public class Enemy : MonoBehaviour
     private Transform playerTransform;
     private HealthComponent healthComponent;
     private HealthBarController healthBarController;
+    private List<RaycastHit2D> castCollisions = new List<RaycastHit2D>();
 
     // Controle de ataque
     private float lastAttackTime;
@@ -41,7 +47,22 @@ public class Enemy : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         healthComponent = GetComponent<HealthComponent>();
         healthBarController = GetComponentInChildren<HealthBarController>();
-        
+
+        // Configurar Rigidbody2D para detecção de colisão adequada
+        if (rb != null)
+        {
+            rb.bodyType = RigidbodyType2D.Dynamic;
+            rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
+            rb.sleepMode = RigidbodySleepMode2D.NeverSleep;
+            rb.interpolation = RigidbodyInterpolation2D.Interpolate;
+            rb.gravityScale = 0f;
+            rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+        }
+        else
+        {
+            Debug.LogError("[Enemy] Rigidbody2D component missing! Add one via Inspector.");
+        }
+
         if (healthComponent != null)
         {
             healthComponent.OnDeath.AddListener(Defeated);
@@ -53,9 +74,9 @@ public class Enemy : MonoBehaviour
         {
             playerTransform = player.transform;
         }
-        else
-        {
-        }
+
+        // Configurar filtro de movimento baseado no layer atual
+        UpdateMovementFilter();
     }
 
     private void FixedUpdate()
@@ -69,13 +90,11 @@ public class Enemy : MonoBehaviour
     // Atualiza o comportamento baseado no estado atual
     void UpdateEnemyBehavior()
     {
-        float distanceToPlayer = Vector2.Distance(transform.position, playerTransform.position);
-
         switch (currentState)
         {
             case EnemyState.Idle:
                 // Verifica se player entrou na área de detecção
-                if (distanceToPlayer <= detectionRadius)
+                if (CanDetectPlayer())
                 {
                     ChangeState(EnemyState.Chasing);
                 }
@@ -83,12 +102,12 @@ public class Enemy : MonoBehaviour
 
             case EnemyState.Chasing:
                 // Se player saiu da área de detecção, volta para Idle
-                if (distanceToPlayer > detectionRadius)
+                if (!CanDetectPlayer())
                 {
                     ChangeState(EnemyState.Idle);
                 }
                 // Se chegou perto o suficiente, ataca
-                else if (distanceToPlayer <= attackRadius && canAttack)
+                else if (CanAttackPlayer())
                 {
                     ChangeState(EnemyState.Attacking);
                 }
@@ -101,7 +120,7 @@ public class Enemy : MonoBehaviour
 
             case EnemyState.Attacking:
                 // Verifica se ainda pode atacar
-                if (distanceToPlayer <= attackRadius && canAttack)
+                if (CanAttackPlayer())
                 {
                     AttackPlayer();
                 }
@@ -112,6 +131,52 @@ public class Enemy : MonoBehaviour
                 }
                 break;
         }
+    }
+
+    /// <summary>
+    /// Verifica se o player pode ser detectado baseado em:
+    /// 1. Player existe
+    /// 2. Enemy e player estão no mesmo layer (mesmo nível de elevação)
+    /// 3. Distância está dentro do raio de detecção
+    /// </summary>
+    private bool CanDetectPlayer()
+    {
+        if (playerTransform == null) return false;
+
+        // Verificar se estão no mesmo layer (nível de elevação)
+        int enemyLayer = gameObject.layer;
+        int playerLayer = playerTransform.gameObject.layer;
+
+        if (enemyLayer != playerLayer)
+        {
+            // Diferentes níveis de elevação - não pode detectar
+            return false;
+        }
+
+        // Verificar distância
+        float distanceToPlayer = Vector2.Distance(transform.position, playerTransform.position);
+        return distanceToPlayer <= detectionRadius;
+    }
+
+    /// <summary>
+    /// Verifica se o player está dentro do alcance de ataque
+    /// </summary>
+    private bool CanAttackPlayer()
+    {
+        if (playerTransform == null || !canAttack) return false;
+
+        // Verificar se estão no mesmo layer
+        int enemyLayer = gameObject.layer;
+        int playerLayer = playerTransform.gameObject.layer;
+
+        if (enemyLayer != playerLayer)
+        {
+            return false;
+        }
+
+        // Verificar distância
+        float distanceToPlayer = Vector2.Distance(transform.position, playerTransform.position);
+        return distanceToPlayer <= attackRadius;
     }
 
     // Muda o estado do inimigo
@@ -146,7 +211,28 @@ public class Enemy : MonoBehaviour
     void MoveTowardsPlayer()
     {
         Vector2 direction = (playerTransform.position - transform.position).normalized;
-        rb.MovePosition(rb.position + direction * moveSpeed * Time.fixedDeltaTime);
+        TryMove(direction);
+    }
+
+    // Tenta mover o inimigo na direção especificada, verificando colisões
+    private bool TryMove(Vector2 direction)
+    {
+        if (direction != Vector2.zero)
+        {
+            // Verifica colisões potenciais
+            int count = rb.Cast(
+                direction,
+                movementFilter,
+                castCollisions,
+                moveSpeed * Time.fixedDeltaTime + collisionOffset);
+
+            if (count == 0)
+            {
+                rb.MovePosition(rb.position + direction * moveSpeed * Time.fixedDeltaTime);
+                return true;
+            }
+        }
+        return false;
     }
 
     // Ataca o player
@@ -214,6 +300,31 @@ public class Enemy : MonoBehaviour
         // Área de ataque (vermelho)
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, attackRadius);
+    }
+
+    /// <summary>
+    /// Atualiza o filtro de movimento para colidir apenas com layers apropriados
+    /// baseado no layer atual do enemy e na Collision Matrix configurada.
+    /// </summary>
+    void UpdateMovementFilter()
+    {
+        // Configurar filtro para usar layer mask
+        movementFilter.useLayerMask = true;
+
+        // Obter automaticamente quais layers o enemy deve colidir
+        // baseado na Collision Matrix (Physics 2D Settings)
+        movementFilter.SetLayerMask(Physics2D.GetLayerCollisionMask(gameObject.layer));
+
+        Debug.Log($"[Enemy] Movement filter atualizado para layer: {LayerMask.LayerToName(gameObject.layer)} (ID: {gameObject.layer})");
+    }
+
+    /// <summary>
+    /// Método público para atualizar o filtro quando o enemy mudar de elevação.
+    /// Pode ser chamado por ElevationZone ou ElevationManager quando há transição de nível.
+    /// </summary>
+    public void OnElevationChanged()
+    {
+        UpdateMovementFilter();
     }
 
 
