@@ -52,20 +52,6 @@ public class Archer : MonoBehaviour
         healthComponent = GetComponent<HealthComponent>();
         healthBarController = GetComponentInChildren<HealthBarController>();
 
-        // Configurar Rigidbody2D para detecção de colisão adequada
-        if (rb != null)
-        {
-            rb.bodyType = RigidbodyType2D.Dynamic;
-            rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
-            rb.sleepMode = RigidbodySleepMode2D.NeverSleep;
-            rb.interpolation = RigidbodyInterpolation2D.Interpolate;
-            rb.gravityScale = 0f;
-            rb.constraints = RigidbodyConstraints2D.FreezeRotation;
-        }
-        else
-        {
-            Debug.LogError("[Archer] Rigidbody2D component missing! Add one via Inspector.");
-        }
 
         if (healthComponent != null)
         {
