@@ -12,14 +12,14 @@ TagManager:
   - 
   - Water
   - UI
-  - ElevationLevel0
-  - ElevationLevel1
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Collision_Level0
+  - Collision_Level1
+  - Collision_Level2
+  - Player
+  - Enemy
+  - NPC
+  - Projectile
+  - Ground
   - 
   - 
   - 

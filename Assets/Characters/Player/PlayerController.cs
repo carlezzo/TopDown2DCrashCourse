@@ -24,6 +24,8 @@ public class PlayerController : MonoBehaviour
 
     HealthComponent healthComponent;
 
+    ElevationState elevationState;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -37,7 +39,19 @@ public class PlayerController : MonoBehaviour
             healthComponent.OnDeath.AddListener(HandlePlayerDeath);
         }
 
-        // Configurar filtro de movimento baseado no layer atual
+        // Obter componente de elevação
+        elevationState = GetComponent<ElevationState>();
+        if (elevationState == null)
+        {
+            Debug.LogError("[PlayerController] ElevationState component not found! Add ElevationState component to Player.");
+        }
+        else
+        {
+            // Subscrever ao evento de mudança de elevação
+            elevationState.OnElevationChanged.AddListener(OnElevationChangedHandler);
+        }
+
+        // Configurar filtro de movimento baseado na elevação atual
         UpdateMovementFilter();
     }
 
@@ -111,6 +125,33 @@ public class PlayerController : MonoBehaviour
         return false;
     }
 
+    /// <summary>
+    /// Atualiza o filtro de movimento para colidir apenas com layers apropriados
+    /// baseado na elevação atual do player (ElevationState).
+    /// </summary>
+    void UpdateMovementFilter()
+    {
+        if (elevationState == null)
+        {
+            Debug.LogWarning("[PlayerController] Cannot update movement filter - ElevationState is null!");
+            return;
+        }
+
+        // Configurar filtro para usar layer mask
+        movementFilter.useLayerMask = true;
+
+        // Obter o layer de colisão apropriado baseado na elevação atual
+        int collisionLayer = elevationState.GetCollisionLayer();
+
+        // Criar layer mask que inclui APENAS o layer de colisão da elevação atual
+        // Usa bit shift (1 << layer) para criar uma máscara com apenas esse layer ativo
+        LayerMask mask = 1 << collisionLayer;
+
+        movementFilter.SetLayerMask(mask);
+
+        Debug.Log($"[PlayerController] Movement filter atualizado para elevação: {elevationState.CurrentElevation} (Collision Layer: {LayerMask.LayerToName(collisionLayer)}, Mask: {mask.value})");
+    }
+
 
 
     void OnMove(InputValue movementValue)
@@ -166,25 +207,22 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+
+
     /// <summary>
-    /// Atualiza o filtro de movimento para colidir apenas com layers apropriados
-    /// baseado no layer atual do player e na Collision Matrix configurada.
+    /// Handler para o evento OnElevationChanged do ElevationState.
+    /// Atualiza automaticamente o filtro de colisão quando a elevação muda.
     /// </summary>
-    void UpdateMovementFilter()
+    void OnElevationChangedHandler(ElevationState.ElevationLevel previousLevel, ElevationState.ElevationLevel newLevel)
     {
-        // Configurar filtro para usar layer mask
-        movementFilter.useLayerMask = true;
-
-        // Obter automaticamente quais layers o player deve colidir
-        // baseado na Collision Matrix (Physics 2D Settings)
-        movementFilter.SetLayerMask(Physics2D.GetLayerCollisionMask(gameObject.layer));
-
-        Debug.Log($"[PlayerController] Movement filter atualizado para layer: {LayerMask.LayerToName(gameObject.layer)} (ID: {gameObject.layer})");
+        Debug.Log($"[PlayerController] Elevação mudou de {previousLevel} para {newLevel}");
+        UpdateMovementFilter();
     }
 
     /// <summary>
     /// Método público para atualizar o filtro quando o player mudar de elevação.
-    /// Chamado por ElevationZone ou ElevationManager quando há transição de nível.
+    /// DEPRECATED: Use o evento OnElevationChanged do ElevationState ao invés deste método.
+    /// Mantido para compatibilidade com código legado.
     /// </summary>
     public void OnElevationChanged()
     {

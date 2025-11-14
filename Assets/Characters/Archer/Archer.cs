@@ -1,24 +1,27 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class Enemy : MonoBehaviour
+public class Archer : MonoBehaviour
 {
-
     [Header("Sistema de Detecção")]
-    public float detectionRadius = 0.50f; // Raio para detectar o player
-    public float attackRadius = 1f;  // Raio para atacar o player
+    public float detectionRadius = 5f; // Raio para detectar o player
+    public float attackRadius = 3f;  // Raio para atacar o player (ranged)
     public float moveSpeed = 0.05f;       // Velocidade de movimento
 
-    [Header("Sistema de Ataque")]
-    public int attackDamage = 1;    // Dano que o inimigo causa
-    public float attackCooldown = 5.5f; // Tempo entre ataques
+    [Header("Sistema de Ataque à Distância")]
+    public GameObject arrowPrefab;          // Prefab da flecha
+    public Transform arrowSpawnPoint;       // Ponto de spawn da flecha
+    public float arrowSpeed = 5f;           // Velocidade da flecha
+    public int arrowDamage = 1;             // Dano da flecha
+    public float arrowLifespan = 3f;        // Tempo de vida da flecha
+    public float attackCooldown = 2.5f;     // Tempo entre ataques
 
     [Header("Sistema de Colisão")]
     public float collisionOffset = 0.05f;
     public ContactFilter2D movementFilter;
 
     // Estados do inimigo
-    public enum EnemyState
+    public enum ArcherState
     {
         Idle,       // Parado, sem detectar player
         Chasing,    // Perseguindo o player
@@ -26,8 +29,7 @@ public class Enemy : MonoBehaviour
     }
 
     [Header("Debug - Estado Atual")]
-    public EnemyState currentState = EnemyState.Idle;
-
+    public ArcherState currentState = ArcherState.Idle;
 
     // Referências
     private Animator animator;
@@ -62,7 +64,7 @@ public class Enemy : MonoBehaviour
         }
         else
         {
-            Debug.LogError("[Enemy] Rigidbody2D component missing! Add one via Inspector.");
+            Debug.LogError("[Archer] Rigidbody2D component missing! Add one via Inspector.");
         }
 
         if (healthComponent != null)
@@ -79,20 +81,32 @@ public class Enemy : MonoBehaviour
 
             if (playerElevationState == null)
             {
-                Debug.LogWarning("[Enemy] Player não possui componente ElevationState! Sistema de elevação não funcionará corretamente.");
+                Debug.LogWarning("[Archer] Player não possui componente ElevationState! Sistema de elevação não funcionará corretamente.");
             }
         }
 
-        // Obter componente de elevação do inimigo
+        // Obter componente de elevação do archer
         elevationState = GetComponent<ElevationState>();
         if (elevationState == null)
         {
-            Debug.LogError("[Enemy] ElevationState component not found! Add ElevationState component to Enemy.");
+            Debug.LogError("[Archer] ElevationState component not found! Add ElevationState component to Archer.");
         }
         else
         {
             // Subscrever ao evento de mudança de elevação
             elevationState.OnElevationChanged.AddListener(OnElevationChangedHandler);
+        }
+
+        // Verificações de referências críticas
+        if (arrowPrefab == null)
+        {
+            Debug.LogError("[Archer] Arrow Prefab not assigned! Assign in Inspector.");
+        }
+
+        if (arrowSpawnPoint == null)
+        {
+            Debug.LogWarning("[Archer] Arrow Spawn Point not assigned! Using archer position as fallback.");
+            arrowSpawnPoint = transform;
         }
 
         // Configurar filtro de movimento baseado na elevação atual
@@ -104,32 +118,32 @@ public class Enemy : MonoBehaviour
         // Só atualiza se não estiver derrotado e player existir
         if (healthComponent.GetCurrentHealth() <= 0 || playerTransform == null) return;
 
-        UpdateEnemyBehavior();
+        UpdateArcherBehavior();
     }
 
     // Atualiza o comportamento baseado no estado atual
-    void UpdateEnemyBehavior()
+    void UpdateArcherBehavior()
     {
         switch (currentState)
         {
-            case EnemyState.Idle:
+            case ArcherState.Idle:
                 // Verifica se player entrou na área de detecção
                 if (CanDetectPlayer())
                 {
-                    ChangeState(EnemyState.Chasing);
+                    ChangeState(ArcherState.Chasing);
                 }
                 break;
 
-            case EnemyState.Chasing:
+            case ArcherState.Chasing:
                 // Se player saiu da área de detecção, volta para Idle
                 if (!CanDetectPlayer())
                 {
-                    ChangeState(EnemyState.Idle);
+                    ChangeState(ArcherState.Idle);
                 }
-                // Se chegou perto o suficiente, ataca
+                // Se chegou na distância de ataque, para e ataca
                 else if (CanAttackPlayer())
                 {
-                    ChangeState(EnemyState.Attacking);
+                    ChangeState(ArcherState.Attacking);
                 }
                 else
                 {
@@ -138,7 +152,7 @@ public class Enemy : MonoBehaviour
                 }
                 break;
 
-            case EnemyState.Attacking:
+            case ArcherState.Attacking:
                 // Verifica se ainda pode atacar
                 if (CanAttackPlayer())
                 {
@@ -147,7 +161,7 @@ public class Enemy : MonoBehaviour
                 else
                 {
                     // Se player se afastou, volta a perseguir
-                    ChangeState(EnemyState.Chasing);
+                    ChangeState(ArcherState.Chasing);
                 }
                 break;
         }
@@ -156,8 +170,8 @@ public class Enemy : MonoBehaviour
     /// <summary>
     /// Verifica se o player pode ser detectado baseado em:
     /// 1. Player existe
-    /// 2. Enemy e player estão no mesmo nível de elevação (ElevationState)
-    /// 3. Distância está dentro do raio de detecção
+    /// 2. Distância está dentro do raio de detecção
+    /// NOTA: Archer sempre pode detectar o player independente do nível de elevação (cross-layer detection).
     /// </summary>
     private bool CanDetectPlayer()
     {
@@ -166,12 +180,8 @@ public class Enemy : MonoBehaviour
             return false;
         }
 
-        // Verificar se estão no mesmo nível de elevação (usando ElevationState)
-        if (!elevationState.IsOnSameLevel(playerElevationState))
-        {
-            // Diferentes níveis de elevação - não pode detectar
-            return false;
-        }
+        // Archer sempre detecta o player, independente da elevação (cross-layer detection)
+        // Isso permite que archer na torre atire no player no chão
 
         // Verificar distância
         float distanceToPlayer = Vector2.Distance(transform.position, playerTransform.position);
@@ -179,7 +189,8 @@ public class Enemy : MonoBehaviour
     }
 
     /// <summary>
-    /// Verifica se o player está dentro do alcance de ataque
+    /// Verifica se o player está dentro do alcance de ataque (ranged)
+    /// NOTA: Archer sempre pode atacar o player independente do nível de elevação (cross-layer attack).
     /// </summary>
     private bool CanAttackPlayer()
     {
@@ -188,53 +199,50 @@ public class Enemy : MonoBehaviour
             return false;
         }
 
-        // Verificar se estão no mesmo nível de elevação (usando ElevationState)
-        if (!elevationState.IsOnSameLevel(playerElevationState))
-        {
-            return false;
-        }
+        // Archer sempre pode atacar, independente da elevação (cross-layer attack)
+        // Isso permite que archer na torre atire no player no chão
 
         // Verificar distância
         float distanceToPlayer = Vector2.Distance(transform.position, playerTransform.position);
         return distanceToPlayer <= attackRadius;
     }
 
-    // Muda o estado do inimigo
-    void ChangeState(EnemyState newState)
+    // Muda o estado do archer
+    void ChangeState(ArcherState newState)
     {
         currentState = newState;
 
         // Atualiza animações baseado no estado
         switch (currentState)
         {
-            case EnemyState.Idle:
+            case ArcherState.Idle:
                 animator.SetBool("isMoving", false);
                 if (healthBarController != null)
                     healthBarController.Hide();
                 break;
 
-            case EnemyState.Chasing:
+            case ArcherState.Chasing:
                 animator.SetBool("isMoving", true);
                 if (healthBarController != null)
                     healthBarController.Show();
                 break;
 
-            case EnemyState.Attacking:
-                animator.SetBool("isMoving", false);
+            case ArcherState.Attacking:
+                animator.SetBool("isMoving", false); // Para de se mover ao atacar
                 if (healthBarController != null)
                     healthBarController.Show();
                 break;
         }
     }
 
-    // Move o inimigo em direção ao player
+    // Move o archer em direção ao player
     void MoveTowardsPlayer()
     {
         Vector2 direction = (playerTransform.position - transform.position).normalized;
         TryMove(direction);
     }
 
-    // Tenta mover o inimigo na direção especificada, verificando colisões
+    // Tenta mover o archer na direção especificada, verificando colisões
     private bool TryMove(Vector2 direction)
     {
         if (direction != Vector2.zero)
@@ -255,24 +263,62 @@ public class Enemy : MonoBehaviour
         return false;
     }
 
-    // Ataca o player
+    // Ataca o player atirando uma flecha
     void AttackPlayer()
     {
-        if (Time.time - lastAttackTime >= attackCooldown)
+        if (Time.time - lastAttackTime >= attackCooldown && canAttack)
         {
             lastAttackTime = Time.time;
 
-            // Aqui seria onde o inimigo causa dano ao player
-            // Por enquanto só mostra debug
+            // Verifica se tem prefab de flecha configurado
+            if (arrowPrefab == null)
+            {
+                Debug.LogError("[Archer] Cannot shoot arrow - arrowPrefab is null!");
+                return;
+            }
 
-            // TODO: Implementar dano ao player quando houver sistema de vida do player
-
-            PlayerController player = playerTransform.GetComponent<PlayerController>();
-            if (player != null) player.TakeDamage(attackDamage);
+            // Atira a flecha
+            ShootArrow();
 
             // Inicia cooldown de ataque
             StartCoroutine(AttackCooldownCoroutine());
         }
+    }
+
+    /// <summary>
+    /// Dispara uma flecha na direção do player
+    /// </summary>
+    void ShootArrow()
+    {
+        // Calcula direção para o player
+        Vector2 direction = (playerTransform.position - arrowSpawnPoint.position).normalized;
+
+        // Calcula ângulo de rotação para a flecha
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+
+        // Instancia a flecha com rotação correta
+        GameObject arrowObject = Instantiate(
+            arrowPrefab,
+            arrowSpawnPoint.position,
+            Quaternion.Euler(0, 0, angle)
+        );
+
+        // Configura as propriedades da flecha
+        Arrow arrowScript = arrowObject.GetComponent<Arrow>();
+        if (arrowScript != null)
+        {
+            arrowScript.direction = direction;
+            arrowScript.speed = arrowSpeed;
+            arrowScript.lifeSpawn = arrowLifespan;
+            arrowScript.damage = arrowDamage;
+            arrowScript.shooterElevationState = elevationState; // Passa o estado de elevação do archer
+        }
+        else
+        {
+            Debug.LogError("[Archer] Arrow prefab does not have Arrow.cs component!");
+        }
+
+        Debug.Log($"[Archer] Shot arrow towards player at angle {angle}°");
     }
 
     // Cooldown do ataque
@@ -294,7 +340,7 @@ public class Enemy : MonoBehaviour
     void Defeated()
     {
         // Para o movimento e muda para estado derrotado
-        currentState = EnemyState.Idle;
+        currentState = ArcherState.Idle;
         animator.SetTrigger("defeated");
 
         // Esconde a health bar quando derrotado
@@ -305,7 +351,7 @@ public class Enemy : MonoBehaviour
         GetComponent<Collider2D>().enabled = false;
     }
 
-    public void RemoveEnemy()
+    public void RemoveArcher()
     {
         Destroy(gameObject);
     }
@@ -320,17 +366,24 @@ public class Enemy : MonoBehaviour
         // Área de ataque (vermelho)
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, attackRadius);
+
+        // Ponto de spawn da flecha (verde)
+        if (arrowSpawnPoint != null)
+        {
+            Gizmos.color = Color.green;
+            Gizmos.DrawWireSphere(arrowSpawnPoint.position, 0.1f);
+        }
     }
 
     /// <summary>
     /// Atualiza o filtro de movimento para colidir apenas com layers apropriados
-    /// baseado na elevação atual do enemy (ElevationState).
+    /// baseado na elevação atual do archer (ElevationState).
     /// </summary>
     void UpdateMovementFilter()
     {
         if (elevationState == null)
         {
-            Debug.LogWarning("[Enemy] Cannot update movement filter - ElevationState is null!");
+            Debug.LogWarning("[Archer] Cannot update movement filter - ElevationState is null!");
             return;
         }
 
@@ -346,7 +399,7 @@ public class Enemy : MonoBehaviour
 
         movementFilter.SetLayerMask(mask);
 
-        Debug.Log($"[Enemy] Movement filter atualizado para elevação: {elevationState.CurrentElevation} (Collision Layer: {LayerMask.LayerToName(collisionLayer)}, Mask: {mask.value})");
+        Debug.Log($"[Archer] Movement filter atualizado para elevação: {elevationState.CurrentElevation} (Collision Layer: {LayerMask.LayerToName(collisionLayer)}, Mask: {mask.value})");
     }
 
     /// <summary>
@@ -355,12 +408,12 @@ public class Enemy : MonoBehaviour
     /// </summary>
     void OnElevationChangedHandler(ElevationState.ElevationLevel previousLevel, ElevationState.ElevationLevel newLevel)
     {
-        Debug.Log($"[Enemy] Elevação mudou de {previousLevel} para {newLevel}");
+        Debug.Log($"[Archer] Elevação mudou de {previousLevel} para {newLevel}");
         UpdateMovementFilter();
     }
 
     /// <summary>
-    /// Método público para atualizar o filtro quando o enemy mudar de elevação.
+    /// Método público para atualizar o filtro quando o archer mudar de elevação.
     /// DEPRECATED: Use o evento OnElevationChanged do ElevationState ao invés deste método.
     /// Mantido para compatibilidade com código legado.
     /// </summary>
@@ -368,6 +421,4 @@ public class Enemy : MonoBehaviour
     {
         UpdateMovementFilter();
     }
-
-
 }
