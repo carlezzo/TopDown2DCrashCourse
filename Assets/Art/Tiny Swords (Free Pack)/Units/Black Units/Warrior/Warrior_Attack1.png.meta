@@ -156,12 +156,12 @@ TextureImporter:
       name: Warrior_Attack1_0
       rect:
         serializedVersion: 2
-        x: 56
-        y: 54
-        width: 67
-        height: 92
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 57
+        y: 55
+        width: 65
+        height: 90
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -178,12 +178,12 @@ TextureImporter:
       name: Warrior_Attack1_1
       rect:
         serializedVersion: 2
-        x: 245
-        y: 54
-        width: 69
-        height: 95
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 246
+        y: 55
+        width: 67
+        height: 93
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -200,12 +200,12 @@ TextureImporter:
       name: Warrior_Attack1_2
       rect:
         serializedVersion: 2
-        x: 426
-        y: 37
-        width: 122
-        height: 106
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 427
+        y: 38
+        width: 120
+        height: 104
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -222,12 +222,12 @@ TextureImporter:
       name: Warrior_Attack1_3
       rect:
         serializedVersion: 2
-        x: 618
-        y: 48
-        width: 82
-        height: 90
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 619
+        y: 49
+        width: 80
+        height: 88
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -244,12 +244,12 @@ TextureImporter:
       name: Warrior_Attack1_4
       rect:
         serializedVersion: 2
-        x: 713
-        y: 116
-        width: 9
-        height: 9
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 714
+        y: 117
+        width: 7
+        height: 7
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -266,12 +266,12 @@ TextureImporter:
       name: Warrior_Attack1_5
       rect:
         serializedVersion: 2
-        x: 723
-        y: 93
-        width: 10
-        height: 20
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 724
+        y: 94
+        width: 8
+        height: 18
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -288,12 +288,12 @@ TextureImporter:
       name: Warrior_Attack1_6
       rect:
         serializedVersion: 2
-        x: 717
-        y: 49
-        width: 10
-        height: 8
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 722
+        y: 57
+        width: 11
+        height: 19
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -310,12 +310,12 @@ TextureImporter:
       name: Warrior_Attack1_7
       rect:
         serializedVersion: 2
-        x: 721
-        y: 56
-        width: 13
-        height: 21
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 681
+        y: 40
+        width: 33
+        height: 10
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -332,12 +332,12 @@ TextureImporter:
       name: Warrior_Attack1_8
       rect:
         serializedVersion: 2
-        x: 638
-        y: 35
-        width: 32
-        height: 14
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 718
+        y: 50
+        width: 8
+        height: 6
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -354,12 +354,12 @@ TextureImporter:
       name: Warrior_Attack1_9
       rect:
         serializedVersion: 2
-        x: 680
-        y: 39
-        width: 35
+        x: 639
+        y: 36
+        width: 30
         height: 12
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -376,7 +376,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: ea75612dd08d34f2b9847a3a11b2a23e
     internalID: 0
     vertices: []
     indices: 
@@ -384,7 +384,9 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.0},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":7,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
       Warrior_Attack1_0: -3464697531994304634
       Warrior_Attack1_1: 8738852634765236386

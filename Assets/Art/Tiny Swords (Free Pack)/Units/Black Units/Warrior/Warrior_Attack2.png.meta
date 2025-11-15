@@ -150,12 +150,12 @@ TextureImporter:
       name: Warrior_Attack2_0
       rect:
         serializedVersion: 2
-        x: 40
-        y: 54
-        width: 83
-        height: 88
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 41
+        y: 55
+        width: 81
+        height: 86
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -172,12 +172,12 @@ TextureImporter:
       name: Warrior_Attack2_1
       rect:
         serializedVersion: 2
-        x: 232
-        y: 54
-        width: 82
-        height: 91
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 233
+        y: 55
+        width: 80
+        height: 89
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -194,12 +194,12 @@ TextureImporter:
       name: Warrior_Attack2_2
       rect:
         serializedVersion: 2
-        x: 441
-        y: 39
-        width: 102
-        height: 103
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 442
+        y: 40
+        width: 100
+        height: 101
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -216,12 +216,12 @@ TextureImporter:
       name: Warrior_Attack2_3
       rect:
         serializedVersion: 2
-        x: 632
-        y: 40
-        width: 83
-        height: 103
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 633
+        y: 41
+        width: 81
+        height: 101
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -238,12 +238,12 @@ TextureImporter:
       name: Warrior_Attack2_4
       rect:
         serializedVersion: 2
-        x: 716
-        y: 114
-        width: 8
-        height: 9
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 717
+        y: 115
+        width: 6
+        height: 7
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -260,12 +260,12 @@ TextureImporter:
       name: Warrior_Attack2_5
       rect:
         serializedVersion: 2
-        x: 728
-        y: 97
-        width: 8
-        height: 17
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 729
+        y: 98
+        width: 6
+        height: 15
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -282,12 +282,12 @@ TextureImporter:
       name: Warrior_Attack2_6
       rect:
         serializedVersion: 2
-        x: 431
-        y: 49
-        width: 19
-        height: 17
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 432
+        y: 50
+        width: 17
+        height: 15
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -304,12 +304,12 @@ TextureImporter:
       name: Warrior_Attack2_7
       rect:
         serializedVersion: 2
-        x: 700
-        y: 45
-        width: 35
-        height: 43
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 701
+        y: 46
+        width: 33
+        height: 41
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -326,7 +326,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 1eeb27eebbe52490199eedc9601077ab
     internalID: 0
     vertices: []
     indices: 
@@ -334,7 +334,9 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.0},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":7,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
       Warrior_Attack2_0: -3424596684861233237
       Warrior_Attack2_1: 2678504405838677843

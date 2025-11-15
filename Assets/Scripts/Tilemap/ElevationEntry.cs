@@ -21,10 +21,10 @@ public class ElevationEntry : MonoBehaviour
     public ElevationState.ElevationLevel toLevel = ElevationState.ElevationLevel.Level1;
 
     [Tooltip("Sorting order quando no nível superior (para renderizar por cima)")]
-    public int elevatedSortingOrder = 10;
+    public int elevatedSortingOrder = 11;
 
     [Tooltip("Sorting order quando no nível inferior")]
-    public int groundSortingOrder = 0;
+    public int groundSortingOrder = 1;
 
     [Header("Debug")]
     public bool showDebugLogs = true;

@@ -150,12 +150,12 @@ TextureImporter:
       name: Warrior_Idle_0
       rect:
         serializedVersion: 2
-        x: 61
-        y: 54
-        width: 81
-        height: 91
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 62
+        y: 55
+        width: 79
+        height: 89
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -172,12 +172,12 @@ TextureImporter:
       name: Warrior_Idle_1
       rect:
         serializedVersion: 2
-        x: 253
-        y: 54
-        width: 81
-        height: 91
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 254
+        y: 55
+        width: 79
+        height: 89
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -194,12 +194,12 @@ TextureImporter:
       name: Warrior_Idle_2
       rect:
         serializedVersion: 2
-        x: 445
-        y: 54
-        width: 81
-        height: 90
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 446
+        y: 55
+        width: 79
+        height: 88
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -216,12 +216,12 @@ TextureImporter:
       name: Warrior_Idle_3
       rect:
         serializedVersion: 2
-        x: 635
-        y: 54
-        width: 83
-        height: 88
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 636
+        y: 55
+        width: 81
+        height: 86
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -238,12 +238,12 @@ TextureImporter:
       name: Warrior_Idle_4
       rect:
         serializedVersion: 2
-        x: 826
-        y: 54
-        width: 85
-        height: 87
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 827
+        y: 55
+        width: 83
+        height: 85
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -260,12 +260,12 @@ TextureImporter:
       name: Warrior_Idle_5
       rect:
         serializedVersion: 2
-        x: 1019
-        y: 54
-        width: 85
-        height: 87
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 1020
+        y: 55
+        width: 83
+        height: 85
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -282,12 +282,12 @@ TextureImporter:
       name: Warrior_Idle_6
       rect:
         serializedVersion: 2
-        x: 1211
-        y: 54
-        width: 84
-        height: 89
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 1212
+        y: 55
+        width: 82
+        height: 87
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -304,12 +304,12 @@ TextureImporter:
       name: Warrior_Idle_7
       rect:
         serializedVersion: 2
-        x: 1404
-        y: 54
-        width: 82
-        height: 90
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 1405
+        y: 55
+        width: 80
+        height: 88
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -326,7 +326,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 7d0a415803f1a4e959385831aebb8be4
     internalID: 0
     vertices: []
     indices: 
@@ -334,7 +334,9 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.0},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":7,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
       Warrior_Idle_0: 7384290322352760091
       Warrior_Idle_1: 5558041129755138300
