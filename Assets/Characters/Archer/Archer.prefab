@@ -36,6 +36,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 6441601902642366804}
   - {fileID: 193429345584915768}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -165,7 +166,19 @@ MonoBehaviour:
       m_Calls: []
   OnDeath:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6684277045757671422}
+        m_TargetAssemblyTypeName: Archer, Assembly-CSharp
+        m_MethodName: RemoveArcher
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &6684277045757671422
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -265,6 +278,37 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.78929615, y: 0.2787447}
   m_EdgeRadius: 0
+--- !u!1 &6785808547678598021
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6441601902642366804}
+  m_Layer: 10
+  m_Name: ArrowSpawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6441601902642366804
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6785808547678598021}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.5, y: 0.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7726895503866534764}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2118508262208138894
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -351,11 +395,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2290439939245788086, guid: 8369c896280d849acbcadf43f6f74194, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -0.05
+      value: -0.029
       objectReference: {fileID: 0}
     - target: {fileID: 2290439939245788086, guid: 8369c896280d849acbcadf43f6f74194, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 1.42
+      value: 1.407
       objectReference: {fileID: 0}
     - target: {fileID: 2290439939245788086, guid: 8369c896280d849acbcadf43f6f74194, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

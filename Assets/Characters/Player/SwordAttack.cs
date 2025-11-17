@@ -2,47 +2,73 @@ using UnityEngine;
 
 public class SwordAttack : MonoBehaviour
 {
-    public Vector2 attackOffsetRight;
+    [Header("Attack Settings")]
+    [SerializeField] private Vector2 attackOffsetRight;
+    [SerializeField] private int damage = 3;
 
-    public Collider2D swordCollider;
+    [Header("References")]
+    [SerializeField] private Collider2D swordCollider;
 
-    public int damage = 3;
-
-    void Start()
+    private void Awake()
     {
-        // swordCollider = GetComponent<Collider2D>();
-        attackOffsetRight = transform.position;
+        swordCollider ??= GetComponent<Collider2D>();
+
+        if (swordCollider == null)
+        {
+            Debug.LogError("SwordAttack: Collider2D não encontrado! Adicione via Inspector ou garanta que existe no GameObject.", this);
+        }
+        else
+        {
+            // Ensure sword collider starts disabled
+            swordCollider.enabled = false;
+        }
+    }
+
+    private void Start()
+    {
+        attackOffsetRight = transform.localPosition;
     }
 
     public void AttackRight()
     {
-        swordCollider.enabled = true;
-        transform.localPosition = attackOffsetRight;
+        if (swordCollider != null)
+        {
+            swordCollider.enabled = true;
+            transform.localPosition = attackOffsetRight;
+        }
     }
 
     public void AttackLeft()
     {
-        swordCollider.enabled = true;
-        transform.localPosition = new Vector3(-attackOffsetRight.x, attackOffsetRight.y);
+        if (swordCollider != null)
+        {
+            swordCollider.enabled = true;
+            transform.localPosition = new Vector3(-attackOffsetRight.x, attackOffsetRight.y);
+        }
     }
 
     public void StopAttack()
     {
-        swordCollider.enabled = false;
+        if (swordCollider != null)
+        {
+            swordCollider.enabled = false;
+        }
     }
 
-    public void OnTriggerEnter2D(Collider2D other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Enemy") == false)
+
+        if (!other.CompareTag("Enemy"))
         {
             return;
         }
 
-        Enemy enemy = other.GetComponent<Enemy>();
-        if (enemy != null)
+        HealthComponent enemyHealth = other.GetComponent<HealthComponent>();
+
+        if (enemyHealth != null)
         {
-            enemy.TakeDamage(damage);
+            enemyHealth.TakeDamage(damage);
+            Debug.Log($"SwordAttack: Dealt {damage} damage to {other.name}", this);
         }
     }
-
 }
