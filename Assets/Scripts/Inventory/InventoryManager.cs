@@ -30,6 +30,7 @@ public class InventoryManager : MonoBehaviour
             DontDestroyOnLoad(gameObject);
 
             savePath = Path.Combine(Application.persistentDataPath, "inventory.json");
+
             LoadInventory();
 
             if (loadMockDataOnStart)
@@ -143,6 +144,7 @@ public class InventoryManager : MonoBehaviour
         return GetInventoryItemCount() >= maxInventorySize;
     }
 
+    [ContextMenu("Clear Inventory")]
     public void ClearInventory()
     {
         inventory.Clear();
@@ -197,9 +199,6 @@ public class InventoryManager : MonoBehaviour
 
                 OnInventoryChanged?.Invoke();
             }
-            else
-            {
-            }
         }
         catch (System.Exception e)
         {
@@ -229,6 +228,12 @@ public class InventoryManager : MonoBehaviour
         if (Keyboard.current != null && Keyboard.current.tKey.wasPressedThisFrame)
         {
             LoadMockData();
+        }
+
+        if (Keyboard.current != null && Keyboard.current.rKey.wasPressedThisFrame)
+        {
+            ClearInventory();
+            Debug.Log("Inventory cleared via debug hotkey (R)");
         }
     }
 

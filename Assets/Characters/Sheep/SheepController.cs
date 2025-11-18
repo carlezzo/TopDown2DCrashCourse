@@ -43,21 +43,6 @@ public class SheepController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
 
-        // // Configurar Rigidbody2D para movimento suave
-        // if (rb != null)
-        // {
-        //     rb.bodyType = RigidbodyType2D.Dynamic;
-        //     rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
-        //     rb.sleepMode = RigidbodySleepMode2D.NeverSleep;
-        //     rb.interpolation = RigidbodyInterpolation2D.Interpolate;
-        //     rb.gravityScale = 0f;
-        //     rb.constraints = RigidbodyConstraints2D.FreezeRotation;
-        // }
-        // else
-        // {
-        //     Debug.LogError("[SheepController] Rigidbody2D component missing! Add one via Inspector.");
-        // }
-
         // Encontrar o player pela tag
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         if (player != null)

@@ -191,9 +191,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d6e09d9a42904b9aaacddf15f96333a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Archer
-  detectionRadius: 4.67
-  attackRadius: 4
-  moveSpeed: 0
+  detectionRadius: 0
+  attackRadius: 0
+  moveSpeed: 1
   arrowPrefab: {fileID: 2262739601973707217, guid: 1cd941ad4285b4f008755e328bda04ea, type: 3}
   arrowSpawnPoint: {fileID: 0}
   arrowSpeed: 5

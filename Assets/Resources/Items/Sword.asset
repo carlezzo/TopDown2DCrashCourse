@@ -16,7 +16,7 @@ MonoBehaviour:
   description: "O \xEDcone aqui de baixo \xE9 o \xEDcone que vai aparecer no invent\xE1rio\nEsse
     \xEDcone pode ser menor ou diferente do que est\xE1 no game object\nmas tamb\xE9m
     da para usar o mesmo"
-  icon: {fileID: 7807952054443111765, guid: 1f73da0de66f845859df975c88d22805, type: 3}
+  icon: {fileID: 5558420398955925738, guid: 78a70429dd8e04145b590871ea014d39, type: 3}
   itemType: 0
   isStackable: 1
   maxStackSize: 99
