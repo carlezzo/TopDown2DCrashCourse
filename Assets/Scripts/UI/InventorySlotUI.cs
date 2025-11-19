@@ -43,8 +43,7 @@ public class InventorySlotUI : MonoBehaviour
                 {
                     quantityText.text = quantity.ToString();
                     quantityText.enabled = true;
-                    quantityText.color = Color.white;
-                    quantityText.faceColor = Color.white;
+                    quantityText.color = Color.red;
                 }
                 else
                 {

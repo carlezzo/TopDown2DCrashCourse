@@ -113,6 +113,7 @@ GameObject:
   - component: {fileID: 7458240859123840146}
   - component: {fileID: 3264989998986360539}
   - component: {fileID: 2136761889100550498}
+  - component: {fileID: 8059152438013073926}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -5187,5 +5188,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ElevationState
   currentElevation: 0
   OnElevationChanged:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &8059152438013073926
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5190075696110769053}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85f16475b428b47b8a21a0a25dfc3cdc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OxygenComponent
+  maxOxygenTime: 10
+  oxygenBar: {fileID: 0}
+  OnOxygenChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  OnOxygenDepleted:
     m_PersistentCalls:
       m_Calls: []

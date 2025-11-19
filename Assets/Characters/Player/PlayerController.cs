@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections.Generic;
+using System.Collections;
 
 public class PlayerController : MonoBehaviour
 {
@@ -26,6 +27,8 @@ public class PlayerController : MonoBehaviour
 
     ElevationState elevationState;
 
+    [System.NonSerialized] OxygenComponent oxygenComponent;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -37,6 +40,12 @@ public class PlayerController : MonoBehaviour
         if (healthComponent != null)
         {
             healthComponent.OnDeath.AddListener(HandlePlayerDeath);
+        }
+
+        oxygenComponent = GetComponent<OxygenComponent>();
+        if (oxygenComponent != null)
+        {
+            oxygenComponent.OnOxygenDepleted.AddListener(StartSuffocation);
         }
 
         // Obter componente de elevação
@@ -227,6 +236,24 @@ public class PlayerController : MonoBehaviour
     public void OnElevationChanged()
     {
         UpdateMovementFilter();
+    }
+
+    private void StartSuffocation()
+    {
+        // Inicia Coroutine de dano por sufocamento                                                                                              
+        StartCoroutine(SuffocationDamage());
+    }
+
+    private IEnumerator SuffocationDamage()
+    {
+        while (oxygenComponent.GetCurrentOxygen() <= 0)
+        {
+            yield return new WaitForSeconds(1f); // 1 dano por segundo                                                                           
+            if (healthComponent != null)
+            {
+                healthComponent.TakeDamage(1);
+            }
+        }
     }
 
 }
