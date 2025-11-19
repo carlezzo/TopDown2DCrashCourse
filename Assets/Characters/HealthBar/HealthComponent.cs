@@ -32,6 +32,7 @@ public class HealthComponent : MonoBehaviour
         if (currentHealth <= 0)
         {
             OnDeath.Invoke();
+            Destroy(gameObject);
         }
     }
 

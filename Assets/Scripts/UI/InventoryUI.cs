@@ -12,18 +12,30 @@ public class InventoryUI : MonoBehaviour
     private List<InventorySlotUI> inventorySlots = new List<InventorySlotUI>();
     public bool isInventoryOpen = false;
 
-
-    void Start()
+    void Awake()
     {
         if (inventoryPanel == null)
             inventoryPanel = gameObject;
+    }
 
-
+    void OnEnable()
+    {
         if (InventoryManager.Instance != null)
         {
             InventoryManager.Instance.OnInventoryChanged.AddListener(UpdateInventoryUI);
         }
+    }
 
+    void OnDisable()
+    {
+        if (InventoryManager.Instance != null)
+        {
+            InventoryManager.Instance.OnInventoryChanged.RemoveListener(UpdateInventoryUI);
+        }
+    }
+
+    void Start()
+    {
         CreateInventorySlots();
         UpdateInventoryUI();
 
@@ -70,11 +82,25 @@ public class InventoryUI : MonoBehaviour
 
         var inventory = InventoryManager.Instance.GetInventory();
 
+        // Criar slots dinamicamente se necessário
+        while (inventorySlots.Count < inventory.Count)
+        {
+            GameObject slotObj = Instantiate(inventorySlotPrefab, itemsContainer);
+            InventorySlotUI slotUI = slotObj.GetComponent<InventorySlotUI>();
+
+            if (slotUI != null)
+            {
+                inventorySlots.Add(slotUI);
+            }
+        }
+
+        // Limpar todos os slots
         for (int i = 0; i < inventorySlots.Count; i++)
         {
             inventorySlots[i].ClearSlot();
         }
 
+        // Popular slots com itens
         int slotIndex = 0;
         foreach (var kvp in inventory)
         {
@@ -83,14 +109,6 @@ public class InventoryUI : MonoBehaviour
                 inventorySlots[slotIndex].SetItem(kvp.Key, kvp.Value);
                 slotIndex++;
             }
-        }
-    }
-
-    void OnDestroy()
-    {
-        if (InventoryManager.Instance != null)
-        {
-            InventoryManager.Instance.OnInventoryChanged.RemoveListener(UpdateInventoryUI);
         }
     }
 

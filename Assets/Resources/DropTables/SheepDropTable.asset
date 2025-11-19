@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03a2a6214764c48f0bea461c8a79864c, type: 3}
+  m_Name: SheepDropTable
+  m_EditorClassIdentifier: Assembly-CSharp::DropTable
+  drops:
+  - item: {fileID: 11400000, guid: 51092d5d006464f6ba7456c4568efbd9, type: 2}
+    pickupPrefab: {fileID: 6792544609628578886, guid: dde6fa8f11690455abf39aa46325c991, type: 3}
+    quantity: 4

@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 6684277045757671422}
   - component: {fileID: 5155662832822453183}
   - component: {fileID: 8001340695802302684}
+  - component: {fileID: 8317902503602933339}
   m_Layer: 10
   m_Name: Archer
   m_TagString: Enemy
@@ -193,7 +194,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Archer
   detectionRadius: 0
   attackRadius: 0
-  moveSpeed: 1
+  moveSpeed: 0
   arrowPrefab: {fileID: 2262739601973707217, guid: 1cd941ad4285b4f008755e328bda04ea, type: 3}
   arrowSpawnPoint: {fileID: 0}
   arrowSpeed: 5
@@ -278,6 +279,21 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.78929615, y: 0.2787447}
   m_EdgeRadius: 0
+--- !u!114 &8317902503602933339
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6714691915758911096}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 332fb6377ca16426b8e1b561c84b58e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DropOnDeath
+  dropTable: {fileID: 11400000, guid: ef93f58aa8bc444538236888ce1e8bbd, type: 2}
+  dropRadius: 1.12
+  debugMode: 0
 --- !u!1 &6785808547678598021
 GameObject:
   m_ObjectHideFlags: 0
