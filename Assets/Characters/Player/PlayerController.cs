@@ -28,6 +28,9 @@ public class PlayerController : MonoBehaviour
     ElevationState elevationState;
 
     [System.NonSerialized] OxygenComponent oxygenComponent;
+    
+    // Sistema de interação com NPCs
+    private NPCController nearbyNPC;
 
     // Start is called before the first frame update
     void Start()
@@ -172,6 +175,14 @@ public class PlayerController : MonoBehaviour
     {
         animator.SetTrigger("swordAttack");
     }
+    
+    void OnInteract()
+    {
+        if (nearbyNPC != null)
+        {
+            nearbyNPC.TryInteract();
+        }
+    }
 
     public void SwordAttack()
     {
@@ -253,6 +264,27 @@ public class PlayerController : MonoBehaviour
             {
                 healthComponent.TakeDamage(1);
             }
+        }
+    }
+    
+    /// <summary>
+    /// Define o NPC próximo ao jogador para interação.
+    /// Chamado pelo NPCController quando o jogador entra no range.
+    /// </summary>
+    public void SetNearbyNPC(NPCController npc)
+    {
+        nearbyNPC = npc;
+    }
+    
+    /// <summary>
+    /// Remove o NPC próximo ao jogador.
+    /// Chamado pelo NPCController quando o jogador sai do range.
+    /// </summary>
+    public void ClearNearbyNPC(NPCController npc)
+    {
+        if (nearbyNPC == npc)
+        {
+            nearbyNPC = null;
         }
     }
 

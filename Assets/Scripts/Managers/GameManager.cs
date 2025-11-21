@@ -141,5 +141,6 @@ public enum GameState
     Paused,
     GameOver,
     Inventory,
-    Settings
+    Settings,
+    Dialogue
 }

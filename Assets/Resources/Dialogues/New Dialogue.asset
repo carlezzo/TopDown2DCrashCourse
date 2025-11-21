@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a3d40f0543f54ab5aff9967238fc841, type: 3}
+  m_Name: New Dialogue
+  m_EditorClassIdentifier: Assembly-CSharp::DialogueData
+  dialogueID: shopkeeper_001
+  npcName: Mauricio
+  nodes:
+  - text: "Ol\xE1, qual seu nome?"
+    speakerName: Mauricio
+    characterIcon: {fileID: 0}
+    hasChoices: 0
+    choices: []
+    triggersEvent: 0
+    eventName: 
+    givesItem: 0
+    itemToGive: 
+    itemQuantity: 0
+    nextNodeIndex: 0
+  isRepeatable: 1
+  repeatDialogue: {fileID: 0}
