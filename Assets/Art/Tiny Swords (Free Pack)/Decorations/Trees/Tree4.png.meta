@@ -150,12 +150,12 @@ TextureImporter:
       name: Tree4_0
       rect:
         serializedVersion: 2
-        x: 55
-        y: 23
-        width: 82
-        height: 124
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 56
+        y: 24
+        width: 80
+        height: 122
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -172,12 +172,12 @@ TextureImporter:
       name: Tree4_1
       rect:
         serializedVersion: 2
-        x: 247
-        y: 23
-        width: 82
-        height: 123
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 248
+        y: 24
+        width: 80
+        height: 121
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -194,12 +194,12 @@ TextureImporter:
       name: Tree4_2
       rect:
         serializedVersion: 2
-        x: 440
-        y: 23
-        width: 82
-        height: 123
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 441
+        y: 24
+        width: 80
+        height: 121
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -216,12 +216,12 @@ TextureImporter:
       name: Tree4_3
       rect:
         serializedVersion: 2
-        x: 632
-        y: 23
-        width: 82
-        height: 123
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 633
+        y: 24
+        width: 80
+        height: 121
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -238,12 +238,12 @@ TextureImporter:
       name: Tree4_4
       rect:
         serializedVersion: 2
-        x: 824
-        y: 23
-        width: 82
-        height: 124
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 825
+        y: 24
+        width: 80
+        height: 122
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -260,12 +260,12 @@ TextureImporter:
       name: Tree4_5
       rect:
         serializedVersion: 2
-        x: 1016
-        y: 23
-        width: 81
-        height: 123
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 1017
+        y: 24
+        width: 79
+        height: 121
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -282,12 +282,12 @@ TextureImporter:
       name: Tree4_6
       rect:
         serializedVersion: 2
-        x: 1207
-        y: 23
-        width: 81
-        height: 123
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 1208
+        y: 24
+        width: 79
+        height: 121
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -304,12 +304,12 @@ TextureImporter:
       name: Tree4_7
       rect:
         serializedVersion: 2
-        x: 1399
-        y: 23
-        width: 81
-        height: 123
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 1400
+        y: 24
+        width: 79
+        height: 121
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -326,7 +326,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 5a294484204d54bf98ac2bd2f640bcf9
     internalID: 0
     vertices: []
     indices: 
@@ -334,7 +334,9 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.0},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":7,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
       Tree4_0: 1597045161386275989
       Tree4_1: -8083679673641510983

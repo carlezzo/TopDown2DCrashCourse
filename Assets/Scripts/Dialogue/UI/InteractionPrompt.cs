@@ -13,7 +13,7 @@ public class InteractionPrompt : MonoBehaviour
     [SerializeField] private string defaultPromptText = "Falar";
     [SerializeField] private float fadeDuration = 0.3f;
     [SerializeField] private bool autoPosition = true;
-    [SerializeField] private Vector2 offsetFromNPC = new Vector2(0, 100);
+    [SerializeField] private Vector2 offsetFromNPC = new Vector2(0, 320);
 
     [Header("Mobile UI")]
     [SerializeField] private float minButtonSize = 10f;

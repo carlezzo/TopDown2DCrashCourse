@@ -57,7 +57,6 @@ public class DialogueUI : MonoBehaviour
 
     public void Hide()
     {
-        Debug.LogWarning(System.Environment.StackTrace); // Mostra quem chamou!
 
         if (dialoguePanel != null)
             dialoguePanel.SetActive(false);
@@ -245,6 +244,9 @@ public class DialogueUI : MonoBehaviour
 
     void OnContinueClicked()
     {
+        Hide();
+        return;
+
         if (isTyping)
         {
             // Se está digitando, completar imediatamente

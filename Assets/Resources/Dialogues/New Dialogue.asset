@@ -26,5 +26,5 @@ MonoBehaviour:
     itemToGive: 
     itemQuantity: 0
     nextNodeIndex: 0
-  isRepeatable: 1
+  isRepeatable: 0
   repeatDialogue: {fileID: 0}
