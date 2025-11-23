@@ -5038,7 +5038,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfcbe7f6957d34e97a0c842e79cd23f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HealthComponent
-  maxHealth: 3
+  maxHealth: 5
   healthBar: {fileID: 0}
   OnHealthChanged:
     m_PersistentCalls:
@@ -5077,6 +5077,6 @@ MonoBehaviour:
   shakeDuration: 0.2
   shakeSpeed: 30
   hitSound: {fileID: 8300000, guid: c879ad775cca34961ae1ce4f7cf09dd3, type: 3}
-  hitVolume: 0.7
+  hitVolume: 0.816
   damageParticles: {fileID: 4303038970528178327}
   healthComponent: {fileID: 0}

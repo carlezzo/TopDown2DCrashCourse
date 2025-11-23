@@ -31,7 +31,6 @@ public class TreeController : MonoBehaviour
 
     [Header("References")]
     [SerializeField] private HealthComponent healthComponent;
-    private AudioSource audioSource;
 
     private Vector3 originalPosition;
     private Coroutine shakeCoroutine;
@@ -45,18 +44,6 @@ public class TreeController : MonoBehaviour
         {
             Debug.LogError($"TreeController em {gameObject.name}: HealthComponent não encontrado! Adicione HealthComponent ao GameObject.");
         }
-
-        // Configurar AudioSource se um som foi fornecido
-        if (hitSound != null)
-        {
-            audioSource = GetComponent<AudioSource>();
-            if (audioSource == null)
-            {
-                audioSource = gameObject.AddComponent<AudioSource>();
-                audioSource.playOnAwake = false;
-                audioSource.spatialBlend = 0.5f; // Som 2D/3D híbrido
-            }
-        }
     }
 
     void Start()
@@ -68,7 +55,13 @@ public class TreeController : MonoBehaviour
         if (healthComponent != null)
         {
             healthComponent.OnHealthChanged.AddListener(HandleDamage);
+            healthComponent.OnDeath.AddListener(HandleDeath);
         }
+    }
+
+    void HandleDeath()
+    {
+        PlayHitSound();
     }
 
     void OnDestroy()
@@ -139,12 +132,15 @@ public class TreeController : MonoBehaviour
 
     /// <summary>
     /// Toca som de impacto se configurado
+    /// Usa PlayClipAtPoint para que o som continue mesmo após a árvore ser destruída
     /// </summary>
     private void PlayHitSound()
     {
-        if (hitSound != null && audioSource != null)
+        if (hitSound != null)
         {
-            audioSource.PlayOneShot(hitSound, hitVolume);
+            // PlayClipAtPoint cria um AudioSource temporário que se auto-destrói
+            // Isso permite que o som continue tocando mesmo após o GameObject ser destruído
+            AudioSource.PlayClipAtPoint(hitSound, transform.position, hitVolume);
         }
     }
 
