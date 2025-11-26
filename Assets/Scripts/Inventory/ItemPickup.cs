@@ -1,5 +1,9 @@
 using UnityEngine;
 
+/// <summary>
+/// Component para itens coletáveis no mundo. Adiciona item ao inventário quando player coleta.
+/// Suporta dois modos: Trigger (colisão) e Proximity (proximidade).
+/// </summary>
 public class ItemPickup : MonoBehaviour
 {
     [Header("Item Pickup Settings")]
