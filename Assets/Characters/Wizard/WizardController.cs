@@ -24,7 +24,8 @@ public class WizardController : MonoBehaviour
     // Armazena última direção para manter animação idle correta
     private Vector2 lastDirection = Vector2.down; // Default: front
 
-    public SwordAttack swordAttack;
+    [Header("Weapon System")]
+    [SerializeField] private WeaponManager weaponManager;
 
     HealthComponent healthComponent;
 
@@ -68,6 +69,13 @@ public class WizardController : MonoBehaviour
 
         // Configurar filtro de movimento baseado na elevação atual
         UpdateMovementFilter();
+
+        // Inicializar weapon manager
+        weaponManager ??= GetComponentInChildren<WeaponManager>();
+        if (weaponManager == null)
+        {
+            Debug.LogWarning("[WizardController] WeaponManager não encontrado! Sistema de armas não funcionará. Adicione WeaponSlot child com WeaponManager component.");
+        }
     }
 
     private void FixedUpdate()
@@ -186,6 +194,8 @@ public class WizardController : MonoBehaviour
 
     void OnFire()
     {
+            Debug.Log("OnFire() chamado! Disparando trigger swordAttack"); // ADICIONE ESTA LINHA
+
         animator.SetTrigger("swordAttack");
     }
     
@@ -197,23 +207,31 @@ public class WizardController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Executa ataque com a arma equipada.
+    /// Animation Event - chamado pela animação de ataque do corpo.
+    /// </summary>
     public void SwordAttack()
     {
         LockMovement();
 
-        if (spriteRenderer.flipX)
+        if (weaponManager != null && weaponManager.HasWeaponEquipped())
         {
-            swordAttack.AttackLeft();
+            weaponManager.Attack(lastDirection, spriteRenderer.flipX);
         }
         else
         {
-            swordAttack.AttackRight();
+            Debug.LogWarning("[WizardController] Tentou atacar sem arma equipada!");
         }
     }
 
+    /// <summary>
+    /// Para o ataque atual.
+    /// Animation Event - chamado pela animação de ataque do corpo.
+    /// </summary>
     public void StopSwordAttack()
     {
-        swordAttack.StopAttack();
+        weaponManager?.StopAttack();
         UnlockMovement();
     }
 
@@ -224,6 +242,31 @@ public class WizardController : MonoBehaviour
     public void UnlockMovement()
     {
         canMove = true;
+    }
+
+    /// <summary>
+    /// Equipa uma arma usando WeaponData.
+    /// Chamado pelo sistema de inventário ou para testes.
+    /// </summary>
+    /// <param name="weaponData">Dados da arma a equipar</param>
+    public void EquipWeapon(WeaponData weaponData)
+    {
+        if (weaponManager != null)
+        {
+            weaponManager.EquipWeapon(weaponData);
+        }
+        else
+        {
+            Debug.LogError("[WizardController] WeaponManager não encontrado! Não é possível equipar arma.");
+        }
+    }
+
+    /// <summary>
+    /// Remove a arma atualmente equipada.
+    /// </summary>
+    public void UnequipWeapon()
+    {
+        weaponManager?.UnequipCurrentWeapon();
     }
 
     void HandlePlayerDeath()

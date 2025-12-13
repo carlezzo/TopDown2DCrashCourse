@@ -5179,7 +5179,7 @@ MonoBehaviour:
     maxNormalAngle: 0
   joystick: {fileID: 0}
   joystickSensitivity: 6
-  swordAttack: {fileID: 0}
+  weaponManager: {fileID: 0}
 --- !u!1 &7836781411325584336
 GameObject:
   m_ObjectHideFlags: 0

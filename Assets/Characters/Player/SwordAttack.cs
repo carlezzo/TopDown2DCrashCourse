@@ -31,6 +31,8 @@ public class SwordAttack : MonoBehaviour
 
     public void AttackRight()
     {
+        print("entrou");
+
         if (swordCollider != null)
         {
             swordCollider.enabled = true;
